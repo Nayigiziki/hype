@@ -1,34 +1,49 @@
 {
-    "name": "shakReact",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Nayigiziki/shakCMSReact.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "bcryptjs": "^2.2.1",
-        "body-parser": "^1.13.3",
-        "cloudinary": "^1.2.4",
-        "connect-mongo": "^0.8.2",
-        "cookie-parser": "^1.3.5",
-        "cors": "^2.7.1",
-        "express": "^4.13.3",
-        "express-session": "^1.11.3",
-        "mocha": "^2.3.2",
-        "mongoose": "^4.1.9",
-        "morgan": "^1.6.1",
-        "node-stringify": "0.0.18",
-        "underscore": "^1.8.3"
-    },
-    "bugs": {
-        "url": "https://github.com/Nayigiziki/shakCMSReact/issues"
-    },
-    "homepage": "https://github.com/Nayigiziki/shakCMSReact"
+  "name": "shakReact",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nayigiziki/shakCMSReact.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.5.2",
+    "bcryptjs": "^2.2.1",
+    "body-parser": "^1.13.3",
+    "cloudinary": "^1.2.4",
+    "connect-mongo": "^0.8.2",
+    "cookie-parser": "^1.3.5",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "mocha": "^2.3.2",
+    "mongoose": "^4.1.9",
+    "morgan": "^1.6.1",
+    "node-stringify": "0.0.18",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-router": "^2.0.0",
+    "underscore": "^1.8.3",
+    "webpack": "^1.12.13"
+  },
+  "devDependencies": {
+    "babel-plugin-react-transform": "^2.0.0",
+    "react-transform-hmr": "^1.0.2",
+    "webpack-dev-middleware": "^1.5.1",
+    "webpack-hot-middleware": "^2.7.1"
+  },
+  "bugs": {
+    "url": "https://github.com/Nayigiziki/shakCMSReact/issues"
+  },
+  "homepage": "https://github.com/Nayigiziki/shakCMSReact"
 }
