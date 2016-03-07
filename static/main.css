@@ -224,8 +224,6 @@ body {
   display: -webkit-flex;
   font-family: 'Superspitze Grotesk';
   font-size: 18px;
-  margin-left: 30px;
-  margin-right :30px;
   word-wrap: break-word;
   overflow-x: hidden;
   align-items : flex-start;
@@ -233,13 +231,13 @@ body {
   -webkit-align-items : flex-start;
   -webkit-justify-content : center;
   margin-top: 15px;
-
 }
 
 .projectDescription {
   word-wrap: break-word;
   overflow-x: hidden;
   width : 100%;
+  max-width: 100%;
   white-space: pre-wrap;
   cursor: pointer;
 }
@@ -256,10 +254,9 @@ body {
   display: -webkit-flex;  
   flex-direction: column;
   -webkit-flex-direction: column;
-  align-self: center;
-  -webkit-align-self: center;
-  margin-left: 40px;
-  width : 360px;
+  margin-left: 5%;
+  width : 100%;
+  max-width: 20%;
 }
 
 .rectLeft {
