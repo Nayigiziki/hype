@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Superspitze Grotesk';
+  src: url('SuperspitzeGrotesk-SemiBold.eot'); /* IE9 Compat Modes */
+  src: url('SuperspitzeGrotesk-SemiBold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('SuperspitzeGrotesk-SemiBold.woff') format('woff'), /* Modern Browsers */
+       url('SuperspitzeGrotesk-SemiBold.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('SuperspitzeGrotesk-SemiBold.svg#e00e7a6d2841f025d96010a5cd455804') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  700;
+}
+
