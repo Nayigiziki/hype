@@ -3,7 +3,7 @@ import Login from './Login.jsx';
 import Header from './Header.jsx';
 import WebAPIUtils from './utils/WebAPIUtils';
 
-export default class App extends React.Component {
+export default class Auth extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -14,7 +14,6 @@ export default class App extends React.Component {
     let loggedInStatus = this.state.loggedIn;
     let childrenComponents = this.renderChildren();
     return (<div>
-              <Header isloggedIn={loggedInStatus} />
               <div className='pageContent'>
                 {childrenComponents}
               </div>
@@ -29,23 +28,6 @@ export default class App extends React.Component {
         });
       });
   }
-  renderChildren(){
-    let updateLoggedInStateHandler = this.updateLoggedInState.bind(this);
-    let updateSiteContentStateHandler = this.updateLoggedInState.bind(this);
-    let isLoggedIn = this.isLoggedIn.bind(this);
-
-    return React.Children.map(this.props.children, (child) => {
-        return React.cloneElement(child, {
-          onUpdateLoggedInStatus : updateLoggedInStateHandler,
-          onUpdateSiteContentStateHandler : updateSiteContentStateHandler,
-          isLoggedIn : isLoggedIn,
-          post: WebAPIUtils.post,
-          get : WebAPIUtils.get,
-          put : WebAPIUtils.put,
-          _delete_ : WebAPIUtils._delete_
-        });
-    });
-  };
   componentWillMount(){
     // this.updateApplicationState();
   };
@@ -56,8 +38,5 @@ export default class App extends React.Component {
     this.setState({
       loggedIn: isLoggedIn
     });
-  };
-  updateSiteContentState(siteContent){
-    this.setState(siteContent);
   };
 };

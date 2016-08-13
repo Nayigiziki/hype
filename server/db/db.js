@@ -6,7 +6,7 @@ var projectSchema = new Schema({
         projectDescription: String,
         projectClient: String,
         projectDiscipline: String,
-        projectCollaborator: String,
+        projectCollaborators: String,
         projectYear: Number,
         projectCreationDate: {
             type: Date,
@@ -14,10 +14,10 @@ var projectSchema = new Schema({
         },
         projectDetails: String,
         projectUrl: String,
-        projectImageUrls: Array,
-        projectImageBase64: Buffer
+        projectImageUrls: Array
     }
 });
+
 var userSchema = new Schema({
     username: String,
     password: String,

@@ -14,8 +14,8 @@ var saveToDb = function(project, cb) {
             console.log('successfully saved Project ');
         }
         cb(err, newProj);
-    })
-}
+    });
+};
 
 var getProjectFromDb = function(id, cb) {
     ProjectModel.findOne({
@@ -25,23 +25,21 @@ var getProjectFromDb = function(id, cb) {
             console.log('err ', err);
         } else {
             console.log('found project');
-            console.log(proj);
         }
         cb(err, proj);
-    })
-}
+    });
+};
 
 var getAllProjectsFromDB = function(cb) {
     ProjectModel.find({}, function(err, projs) {
         if (err) {
             console.log('err ', err);
-            cb(false)
+            cb(false);
         } else {
-            console.log('found project results ', projs);
             cb(projs);
         }
-    })
-}
+    });
+};
 
 var editProjectDb = function(id, projectObj, cb) {
     ProjectModel.update({
@@ -58,7 +56,7 @@ var editProjectDb = function(id, projectObj, cb) {
         }
         cb(err, proj);
     });
-}
+};
 
 
 var deleteProjectFromDb = function(id, cb) {
@@ -71,9 +69,9 @@ var deleteProjectFromDb = function(id, cb) {
             console.log('success');
         }
         cb(err, obj);
-    })
+    });
 
-}
+};
 
 var deleteAllProjectsFromDb = function(cb) {
     ProjectModel.remove(function(err, obj) {
@@ -83,8 +81,8 @@ var deleteAllProjectsFromDb = function(cb) {
             console.log('success');
         }
         cb(err, obj);
-    })
-}
+    });
+};
 
 var getAboutFromDB = function(cb) {
     AboutModel.find({}, function(err, about) {
@@ -94,8 +92,8 @@ var getAboutFromDB = function(cb) {
             console.log('found about results ', about);
         }
         cb(err, about);
-    })
-}
+    });
+};
 
 var saveAboutToDb = function(aboutObj, cb) {
     var newAbout = new AboutModel({
@@ -109,8 +107,8 @@ var saveAboutToDb = function(aboutObj, cb) {
             console.log('successfully saved Project ', newAboutObj);
         }
         cb(err, newAboutObj);
-    })
-}
+    });
+};
 
 var editAbout = function(id, aboutObj, cb) {
     AboutModel.update({
@@ -128,7 +126,7 @@ var editAbout = function(id, aboutObj, cb) {
         }
         cb(err, abt);
     });
-}
+};
 
 var getContactFromDB = function(cb) {
     ContactModel.find({}, function(err, contact) {
@@ -138,8 +136,8 @@ var getContactFromDB = function(cb) {
             console.log('found conact results ', contact);
         }
         cb(err, contact);
-    })
-}
+    });
+};
 
 var saveContactToDb = function(contactObj, cb) {
     var newContact = new ContactModel({
@@ -152,8 +150,8 @@ var saveContactToDb = function(contactObj, cb) {
             console.log('successfully saved contact ', newContactObj);
         }
         cb(err, newContactObj);
-    })
-}
+    });
+};
 
 var editContact = function(id, contactObj, cb) {
     ContactModel.update({
@@ -170,7 +168,26 @@ var editContact = function(id, contactObj, cb) {
         }
         cb(err, contact);
     });
-}
+};
+
+var getApplicationState = function(cb) {
+    getAllProjectsFromDB(function(projects) {
+        getContactFromDB(function(errContact, contact) {
+            getAboutFromDB(function(errAbout, about) {
+                console.log('🔥');
+                if (!errContact && !errAbout) {
+                    cb({
+                        projects: projects,
+                        contact: contact,
+                        about: about
+                    });
+                } else {
+                    console.log('💩 get application state');
+                }
+            });
+        });
+    });
+};
 
 
 
@@ -186,5 +203,6 @@ module.exports = {
     editAbout: editAbout,
     getContactFromDB: getContactFromDB,
     saveContactToDb: saveContactToDb,
-    editContact: editContact
+    editContact: editContact,
+    getApplicationState: getApplicationState
 };

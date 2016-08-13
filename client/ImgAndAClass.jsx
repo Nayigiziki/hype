@@ -18,7 +18,7 @@ export default class ImgAndAClass extends React.Component {
         // else word
 
     if(this.props.icon){
-      let icon = React.DOM.img({src: imgSrcObj[this.props.icon], key: 'Icon' });
+      let icon = React.DOM.img({src: imgSrcObj[this.props.icon], key: 'Icon', className: 'item' });
       reactFragment.push(icon);
     } else {
       let word = this.props.text;

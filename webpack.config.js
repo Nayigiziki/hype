@@ -30,7 +30,7 @@ module.exports = {
                 ]
             }
         }, {
-            test: /\.(png|jpg)$/,
+            test: /\.(png|jpg|gif)$/,
             loader: 'url-loader?limit=8192'
         }]
     },
@@ -42,4 +42,4 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx']
     }
-}
+};

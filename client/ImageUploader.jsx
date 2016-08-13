@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Util from './Util';
 
 var special = ['zeroth','first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelvth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth'];
 var deca = ['twent', 'thirt', 'fourt', 'fift', 'sixt', 'sevent', 'eight', 'ninet'];
@@ -9,29 +10,38 @@ export default class ImageUploader extends React.Component{
     super(props);
     this.state = {
       indexOfCurrentImage : 0,
-      imageDataUrls : [{
-        url : '/static/website_frontpage.jpg',
-        file: null
-      }]
+      imageDataUrls : this.props.images.length > 0 ? this.props.images  : ['/static/website_frontpage.jpg']
     }
   };
+  componentWillMount(){
+    this.setState({
+      indexOfCurrentImage : 0,
+      imageDataUrls : this.props.images.length > 0 ? this.props.images : ['/static/website_frontpage.jpg']
+    });
+  }
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      indexOfCurrentImage : 0,
+      imageDataUrls : nextProps.images.length > 0 ? nextProps.images : ['/static/website_frontpage.jpg']
+    });
+  }
   renderImg(){
     let currentIndex = this.state.indexOfCurrentImage;
     let image = this.state.imageDataUrls[currentIndex];
     let onImageClickHandler = this.onImageClick.bind(this);
-    return <img className='projectImg' key='uploadedImage' src={image.url} onClick={onImageClickHandler}/>;
+    return <img className='projectImg' key='uploadedImage' src={image} onClick={onImageClickHandler}/>;
   };
   render(){
     let onFileUploadHandler =  this.onFileUpload.bind(this);
     let image = this.renderImg();
     let strinfydNumber = this.stringifyNumber(this.state.indexOfCurrentImage + 1);
     let setPrimaryImage = this.setPrimaryImage.bind(this);
-    return (<div className='projectImgContainer'>
+    let imageElems = this.props.lock ? (<div className='projectImgContainer'>{image}</div>) : (<div className='projectImgContainer'>
               {image}
               <h2>{strinfydNumber} image displayed</h2>
               <input type="file" onChange={onFileUploadHandler}  multiple accept="image/*" />
-              <button className='inputTitleEditBtn' onClick={setPrimaryImage}>Set Primary image</button>
-            </div>);
+              <button className='inputTitleEditBtn' onClick={setPrimaryImage}>Set Primary image</button></div>);
+    return imageElems;
   };
   componentDidMount(){
     // Materialize.toast('Project Created!', 3000);
@@ -46,16 +56,17 @@ export default class ImageUploader extends React.Component{
     });
   };
   setPrimaryImage(){
-    let images = JSON.parse(JSON.stringify(this.state.imageDataUrls));
+    let images = Util().copyObj(this.state.imageDataUrls);
     //remove image
     let primaryImage = images.splice(this.state.indexOfCurrentImage, 1);
     //add to front
     images.unshift(primaryImage[0]);
 
-    this.setState({
-      indexOfCurrentImage : 0,
-      imageDataUrls : images
-    });
+    // this.setState({
+    //   indexOfCurrentImage : 0,
+    //   imageDataUrls : images
+    // });
+    this.props.onUpdate(images);
   }
   onFileUpload(evt){
     let that = this;
@@ -68,15 +79,11 @@ export default class ImageUploader extends React.Component{
         let file = files[i];
         (function (imageFile){
           reader.onload = (e) => {
-            imageDataUrls.push({
-              file: imageFile,
-              url : e.target.result
-            });
+            imageDataUrls.push(e.target.result);
             
             if(imageDataUrls.length === imageCount){
-              that.setState({
-                imageDataUrls : imageDataUrls
-              });
+              console.log(imageDataUrls[0]);
+              that.props.onUpdate(imageDataUrls);
             }
           }            
         })(file);

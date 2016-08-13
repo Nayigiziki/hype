@@ -116,9 +116,9 @@ module.exports = {
         if (req.session.email) {
             next();
         } else {
-            res.status(401).json({
-                error: 'Not allowed'
-            });
+        res.status(401).json({
+            error: 'Not allowed'
+        });
         }
     },
     logout: function(req, res, next) {

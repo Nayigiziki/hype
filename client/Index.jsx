@@ -5,9 +5,13 @@ import browserHistoryObj from './BrowserHistory';
 import Routes from './Routes';
 import createHistory from 'history/lib/createBrowserHistory';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
+import WebAPIUtils from './utils/WebAPIUtils';
+import { match, RouterContext } from 'react-router';
+
 const history = useScroll(createHistory)();
 const browserHistory = browserHistoryObj();
+WebAPIUtils.getInitialState();
 
-ReactDOM.render(<Router history={browserHistory} routes={Routes()}/>, document.getElementById('app'));
-
-
+match({ history:browserHistory , routes:Routes() }, (error, redirectLocation, renderProps) => {
+  ReactDOM.render(<Router {...renderProps} />, document.getElementById('app'))
+});

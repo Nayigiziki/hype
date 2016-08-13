@@ -15,7 +15,7 @@ var setup = function(app) {
             if (!data) {
                 res.status(400).json({
                     status: 'couldnt load the projects'
-                })
+                });
             } else {
                 res.status(200).json({
                     status: 'successfully fetched the from the db',
@@ -26,8 +26,9 @@ var setup = function(app) {
     });
 
     //create project
-    app.post('/api/createProject', authentication.isAuth, function(req, res, next) {
-        var projectObj = req.body;
+    app.post('/api/project', authentication.isAuth, function(req, res, next) {
+        var projectObj = req.body.project;
+        console.log(projectObj);
         db.saveToDb(projectObj, function(err, createdProj) {
             if (!err) {
                 res.status(201).json({
@@ -37,54 +38,58 @@ var setup = function(app) {
             } else {
                 res.status(400).json({
                     status: 'unsuccessfully added project to db'
-                })
+                });
             }
         });
     });
 
+    app.param('id', function(req, res, next, id) {
+        console.log('id ', id);
+        req._id = id;
+        next();
+    });
+
     //delete projects
-    app.post('/api/deleteProject', authentication.isAuth, function(req, res, next) {
-        db.deleteProjectFromDb(req.body.id, function(err, deletedProject) {
+    app.delete('/api/project/:id', authentication.isAuth, function(req, res, next) {
+        db.deleteProjectFromDb(req._id, function(err, deletedProject) {
             if (!err) {
                 console.log('edited Project ', deletedProject);
                 res.status(200).json({
                     status: 'successfully deleted project'
-                })
+                });
             } else {
                 console.log('err ', err);
                 res.status(400).json({
                     status: 'unsuccessfully updated project',
                     err: err
-                })
+                });
             }
         });
     });
 
     //update projects
-    app.post('/api/editProject', function(req, res, next) {
-        db.editProjectDb(req.body.id, req.body.project, function(err, editedProject) {
+    app.put('/api/project', authentication.isAuth, function(req, res, next) {
+        db.editProjectDb(req.body._id, req.body.project, function(err, editedProject) {
             if (!err) {
-                console.log('edited Project ', editedProject);
                 res.status(200).json({
-                    status: 'successfully updated project',
-                    project: editedProject
-                })
+                    status: 'successfully updated project'
+                });
             } else {
                 console.log('err ', err);
                 res.status(400).json({
                     status: 'unsuccessfully updated project',
                     err: err
-                })
+                });
             }
         });
     });
 
     //edit/create contact data
-    app.post('/api/about', function(req, res, next) {
+    app.post('/api/about', authentication.isAuth, function(req, res, next) {
         var abt = req.body;
         db.getAboutFromDB(function(err, about) {
-            console.log('err ', err)
-            console.log('about ', about)
+            console.log('err ', err);
+            console.log('about ', about);
 
             if (about.length === 0) {
                 console.log('need to create about');
@@ -105,7 +110,7 @@ var setup = function(app) {
                             err: err
                         });
                     }
-                })
+                });
             }
 
             if (about.length === 1) {
@@ -126,10 +131,10 @@ var setup = function(app) {
                             err: err
                         });
                     }
-                })
+                });
 
             }
-        })
+        });
     });
 
     app.get('/api/about', function(req, res, next) {
@@ -145,15 +150,15 @@ var setup = function(app) {
                     err: err
                 });
             }
-        })
-    })
+        });
+    });
 
-    app.post('/api/contact', function(req, res, next) {
+    app.post('/api/contact', authentication.isAuth, function(req, res, next) {
         var contactInfo = req.body;
         console.log('contact info ', contactInfo);
         db.getContactFromDB(function(err, contact) {
-            console.log('err ', err)
-            console.log('contact ', contact)
+            console.log('err ', err);
+            console.log('contact ', contact);
 
             if (contact.length === 0) {
                 console.log('need to create contact');
@@ -173,7 +178,7 @@ var setup = function(app) {
                             err: err
                         });
                     }
-                })
+                });
             }
 
             if (contact.length === 1) {
@@ -193,10 +198,10 @@ var setup = function(app) {
                             err: err
                         });
                     }
-                })
+                });
 
             }
-        })
+        });
     });
 
     app.get('/api/contact', function(req, res, next) {
@@ -212,8 +217,8 @@ var setup = function(app) {
                     err: err
                 });
             }
-        })
-    })
+        });
+    });
 
 
 
