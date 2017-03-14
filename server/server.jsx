@@ -18,12 +18,12 @@ import { RouterContext, match } from 'react-router';
 import createHistory from 'history/lib/createMemoryHistory';
 import getRoutes from '../client/routes';
 import db from './controllers/dbController';
-import ProjectActionCreators from '../client/actions/ProjectActionCreators';
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+// import ProjectActionCreators from '../client/actions/ProjectActionCreators';
+// import { createStore } from 'redux'
+// import { Provider } from 'react-redux'
 
 
-const dbUrl = 'mongodb://localhost/shak';
+const dbUrl = 'mongodb://localhost/learn';
 const config = require('./db/config');
 const app = express();
 
@@ -87,18 +87,7 @@ mongoose.connect(dbUrl)
                 res.render('index', { componentHTML, initialState });
               }
 
-              db.getApplicationState(function(data) {
-                  if (!data) {
-                    send(JSON.stringify({
-                          status: 'couldnt load the projects'
-                      }));
-                  } else {
-                    ProjectActionCreators.receieveProjects(data.projects);
-                    ProjectActionCreators.receieveContact(data.contact);
-                    ProjectActionCreators.receieveAbout(data.about);
-                    send(JSON.stringify(data));
-                  }
-              });
+              send(JSON.stringify({mood: 'yuh'}));
 
             } catch(e) {
               console.error('error: ', e);

@@ -45,9 +45,10 @@ export default class Login extends React.Component {
       username: '',
       password: ''
     });
-    this.props.post('login', credentials)
+    const endPoint = this.state.registerOrLoginState === 'Login' ? 'login' : 'register';
+    this.props.post(endPoint, credentials)
                 .then((response) => {
-                    console.log(response);
+                    console.log('login response: ', response);
                     if(response.status === 201) {
                       loginContext.props.onUpdateLoggedInStatus(true);
                       browserHistory.push(path);

@@ -4,8 +4,6 @@ import assign from 'object-assign';
 import _ from 'underscore';
 
 var projects = null;
-var contact = null;
-var about = null;
 
 var setProject = (receivedProjects) => {
   console.log('setting projects')
@@ -14,16 +12,6 @@ var setProject = (receivedProjects) => {
     projects: sort(receivedProjects)
   };
   console.log('organized and sorted projects', Object.keys(projects.projectReferences), Object.keys(projects.projects));
-}
-
-var setContact = (inputContact) => {
-  console.log('👍setting contact👍')
-  contact = inputContact[0];
-}
-
-var setAbout = (inputAbout) => {
-  console.log('👍setting about👍')
-  about = inputAbout[0];
 }
 
 var setProjectReferences = (projects) => {
@@ -63,12 +51,6 @@ var ProjectStore = assign({}, EventEmiiter.prototype, {
   },
   getProjects(){
     return projects;
-  },
-  getAbout(){
-    return about;
-  },
-  getContact(){
-    return contact;
   }
 });
 
@@ -76,16 +58,6 @@ var handleAction = (action) => {
   if(action.type === 'receive_projects'){
     setProject(action.projects);
     emitChange('projects');
-  }
-
-  if(action.type === 'receive_contact'){
-    setContact(action.contact);
-    emitChange('contact');
-  }
-
-  if(action.type === 'receive_about'){
-    setAbout(action.about);
-    emitChange('about');
   }
 }
 

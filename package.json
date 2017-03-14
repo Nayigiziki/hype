@@ -1,5 +1,5 @@
 {
-  "name": "shakReact",
+  "name": "learn",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,10 +8,6 @@
     "prodBuild": "webpack --config webpack.config.production.js",
     "startDev": "NODE_ENV=development nodemon server/index.js",
     "startProd": "NODE_ENV=production forever start server/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Nayigiziki/shakCMSReact.git"
   },
   "author": "",
   "license": "ISC",
@@ -63,9 +59,6 @@
     "react-transform-hmr": "^1.0.2",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
-  },
-  "bugs": {
-    "url": "https://github.com/Nayigiziki/shakCMSReact/issues"
   },
   "homepage": "https://github.com/Nayigiziki/shakCMSReact"
 }

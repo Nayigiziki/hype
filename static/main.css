@@ -67,7 +67,7 @@ body {
 
 .header {
   position: fixed;
-  width: 100%;
+  width: 100vw;
   background-color: white;
   color: black;
   height: 10vh;
