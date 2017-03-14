@@ -11,10 +11,8 @@ export default class App extends React.Component {
     };
   };
   render() {
-    let loggedInStatus = this.state.loggedIn;
     let childrenComponents = this.renderChildren();
     return (<div>
-              <Header isloggedIn={loggedInStatus} />
               <div className='pageContent'>
                 {childrenComponents}
               </div>

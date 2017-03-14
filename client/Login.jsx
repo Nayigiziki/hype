@@ -21,6 +21,11 @@ export default class Login extends React.Component {
       this.setState({registerOrLoginState : 'Login'});
       return;
     }
+
+    if(this.props.location.pathname === '/') {
+      this.setState({registerOrLoginState : 'Login'});
+      return;
+    }
   }
   componentWillReceiveProps(nextProps) {
 
@@ -32,10 +37,15 @@ export default class Login extends React.Component {
       this.setState({registerOrLoginState : 'Login'});
       return;
     }
+
+    if(this.props.location.pathname === '/') {
+      this.setState({registerOrLoginState : 'Login'});
+      return;
+    }
   }
   login(evt){
     evt.preventDefault();
-    const path = '/projectConstructor';
+    const path = '/dashboard';
     let loginContext = this;
     let credentials = {
         username: this.state.username,

@@ -30,11 +30,6 @@ export default class Header extends React.Component{
   };
   render(){
     let header = this.renderHeader();
-    return (<nav className='header'>
-              <div id='outerHeaderDiv'>
-                  {header}
-              </div>
-              <hr/>
-            </nav>);
+    return (<div>Header</div>);
   }
 };
