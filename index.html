@@ -3,14 +3,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
-/* Layout: one reading column. Bottom line first, then three decisions in buy order, then the day itself. */
+/* Layout: one reading column. Three questions in the order you should answer them, then the day itself. */
 :root {
-  --bg: #e7e5e0;        /* concrete */
+  --bg: #e7e5e0;
   --panel: #f4f3f0;
   --ink: #141413;
   --muted: #64625c;
   --line: #cfccc4;
-  --accent: #6b5a3a;    /* raw suede */
+  --accent: #6b5a3a;
   --accent-ink: #f4f3f0;
   --bad: #9e2b20;
   --display: "Anton", "Impact", "Arial Narrow", sans-serif;
@@ -38,8 +38,8 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(
   display: grid; gap: 52px;
 }
 h1, h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; margin: 0; text-wrap: balance; }
-h1 { font-size: clamp(52px, 15vw, 96px); line-height: 0.9; letter-spacing: 0.005em; }
-h2 { font-size: 30px; line-height: 1; letter-spacing: 0.01em; }
+h1 { font-size: clamp(52px, 15vw, 96px); line-height: 0.9; }
+h2 { font-size: 30px; line-height: 1.05; }
 h3 { font-size: 15px; font-weight: 600; margin: 0; }
 p { margin: 0; }
 b { font-weight: 600; }
@@ -47,24 +47,23 @@ b { font-weight: 600; }
 .muted { color: var(--muted); }
 .small { font-size: 14px; }
 section { display: grid; gap: 16px; }
-.head { display: grid; gap: 6px; }
+.head { display: grid; gap: 8px; }
+.q { font-size: 18px; font-weight: 600; }
 
-/* hero */
 .hero { display: grid; gap: 14px; }
 .facts { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 15px; }
 .facts span { white-space: nowrap; }
 .lede { font-size: 17px; max-width: 58ch; }
 
-/* bottom line */
 .bl { background: var(--ink); color: var(--bg); border-radius: 4px; padding: 22px 20px; display: grid; gap: 16px; }
 .bl .eyebrow { color: inherit; opacity: 0.6; }
 .bl dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; }
 .bl dt { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; padding-top: 3px; }
 .bl dd { margin: 0; min-width: 0; }
+.bl dd.empty { opacity: 0.55; font-style: italic; }
 .bl .cost { border-top: 1px solid color-mix(in srgb, var(--bg) 25%, transparent); padding-top: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .bl .cost .n { font: 400 30px/1 var(--display); font-variant-numeric: tabular-nums; }
 
-/* option cards */
 .opts { display: grid; gap: 8px; }
 .opt {
   display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; align-items: baseline;
@@ -74,32 +73,29 @@ section { display: grid; gap: 16px; }
 .opt:hover { border-color: var(--muted); }
 .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .opt[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.opt[aria-pressed="true"] .name::before { content: "● "; color: var(--accent); }
 .opt .name { font-weight: 600; min-width: 0; }
 .opt .price { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .opt .sub { grid-column: 1 / -1; color: var(--muted); font-size: 14px; }
-.opt .check { display: none; }
-.opt[aria-pressed="true"] .name::before { content: "● "; color: var(--accent); }
+.opt .fit { grid-column: 1 / -1; font-size: 14px; }
 .tag {
   display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 2px;
-  background: var(--accent); color: var(--accent-ink);
+  border: 1px solid var(--accent); color: var(--accent);
   font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; vertical-align: 2px;
 }
 
-/* context blocks */
 .note { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px; display: grid; gap: 6px; }
 .list { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 .avoid li::marker { color: var(--bad); }
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 14px 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
 
-/* timeline */
-.tl { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.tl { display: grid; margin: 0; padding: 0; list-style: none; }
 .tl li { display: grid; grid-template-columns: 92px 1fr; gap: 14px; padding: 10px 0; border-top: 1px solid var(--line); }
 .tl li:last-child { border-bottom: 1px solid var(--line); }
 .tl time { font-weight: 600; font-variant-numeric: tabular-nums; }
 .tl div { min-width: 0; }
 
-/* pinned total */
 .bar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
   background: var(--panel); border-top: 1px solid var(--line);
@@ -110,122 +106,124 @@ section { display: grid; gap: 16px; }
 .bar .in { max-width: 640px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 4px 16px; flex-wrap: wrap; }
 .bar .n { font: 400 26px/1.05 var(--display); font-variant-numeric: tabular-nums; }
 .bar .why { font-size: 13px; color: var(--muted); max-width: 300px; }
+.reset { font: inherit; font-size: 13px; color: inherit; background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; opacity: 0.7; justify-self: start; }
 footer { font-size: 13px; color: var(--muted); }
 </style>
 
 <div class="wrap">
 
   <header class="hero">
-    <div class="eyebrow">Ye Live · BULLY World Tour · Austin to Arlington</div>
+    <div class="eyebrow">Ye Live · BULLY tour · Austin to Arlington</div>
     <h1>Ye at AT&amp;T Stadium</h1>
     <div class="facts">
-      <span><b>Sat, Nov 7</b></span>
-      <span>8:00 PM <span class="muted">(some sites say 9)</span></span>
+      <span><b>Saturday, Nov 7</b></span>
+      <span>8 PM</span>
       <span>Arlington, TX</span>
-      <span>~3 hr drive</span>
+      <span>About 3 hours by car</span>
     </div>
-    <p class="lede muted">Full stadium production, about 36 songs across the whole catalog plus BULLY. It's the second-to-last stop of the 2026 tour; the finale is Glendale, AZ on Nov 21. Tap a choice in each section below and the summary and cost update.</p>
+    <p class="lede muted">There are three things to decide: seats, hotel and afterparty. Go in order. For each one, read the question, then tap the choice that fits you. Your picks and the cost show up in the box below.</p>
   </header>
 
   <section class="bl" aria-live="polite">
-    <div class="eyebrow">Your plan</div>
+    <div class="eyebrow">Your picks so far</div>
     <dl>
       <dt>Seats</dt><dd id="bl-tix"></dd>
       <dt>Hotel</dt><dd id="bl-hotel"></dd>
       <dt>After</dt><dd id="bl-party"></dd>
     </dl>
     <div class="cost">
-      <span class="small" style="opacity:.7">Per person, estimated</span>
+      <span class="small" style="opacity:.7">Cost per person (estimate)</span>
       <span class="n" id="bl-cost"></span>
     </div>
+    <button class="reset" type="button" id="reset">Start over</button>
   </section>
 
-  <!-- 1. Tickets -->
+  <!-- 1. Seats -->
   <section>
     <div class="head">
-      <div class="eyebrow">Decision 1 · Buy first, it's 5 days out</div>
+      <div class="eyebrow">Step 1 of 3 · Do this first</div>
       <h2>Seats</h2>
-      <p class="muted">Resale only now. The cheapest seat is $236 and the average ticket is $619. Above about $600, paying more doesn't always mean a better night. Club seats cost about the same as regular ones but come with real perks.</p>
+      <p class="q">How do you want to watch the show?</p>
+      <p class="muted">The show is 5 days away, so tickets are resale only. Prices go from $236 to over $1,000 a seat. Think about what matters to you: being close, being comfortable, skipping lines, or spending less.</p>
     </div>
     <div class="opts" id="tix"></div>
     <div class="grid2">
       <div class="card">
-        <h3>What club seats get you</h3>
+        <h3>What "club" seats mean</h3>
         <ul class="list small">
-          <li>Private entrance: <b>Entry E</b> (southeast corner), the closest gate to the hotels.</li>
-          <li>Climate-controlled lounge and private restrooms. No concourse lines.</li>
-          <li>Wider padded armchairs and extra legroom.</li>
-          <li>Side view of both the main stage and the catwalk.</li>
+          <li>Your own entrance (Entry E), which is the closest gate to the hotels.</li>
+          <li>An indoor lounge and private bathrooms.</li>
+          <li>Bigger, padded seats.</li>
+          <li>Food and drinks are not free at concerts.</li>
         </ul>
-        <p class="small muted">Founders Club (C210) is all-inclusive for Cowboys games only. At concerts you pay for food and drinks.</p>
       </div>
       <div class="card">
-        <h3>Skip these</h3>
+        <h3>The report says to skip these</h3>
         <ul class="list small avoid">
-          <li><b>Floor GA</b>, $713–875. No seats. You'd line up 2+ hours before doors and stand for 5+ hours. It costs more than club seats.</li>
-          <li><b>Standing room</b>, $262–553. A crowded end-zone deck with no seats.</li>
-          <li><b>Section 458</b>. The stage is partly blocked from there.</li>
+          <li><b>Floor</b> ($713–875). No seats. You stand for 5+ hours and must line up early for a good spot.</li>
+          <li><b>Standing room</b> ($262–553). No seat, and it's crowded.</li>
+          <li><b>Section 458</b>. The stage is partly blocked.</li>
         </ul>
       </div>
     </div>
     <div class="note small">
-      <b>Where to buy.</b> <span>Compare a few sites; the same section can cost very different amounts. SeatGeek ($243 floor) and Event Escapes ($276) usually beat Ticketmaster resale ($324 floor), but Event Escapes only delivers tickets 24–48 hours before the show. Ticketmaster, StubHub and AXS send verified tickets right away. With the show 5 days out, instant delivery is the safer bet.</span>
+      <b>Where to buy</b>
+      <span>Check two or three sites, because prices differ. SeatGeek is often cheapest. Ticketmaster and StubHub send your tickets right away. Some cheaper sites only send them 1–2 days before the show.</span>
     </div>
   </section>
 
   <!-- 2. Hotel -->
   <section>
     <div class="head">
-      <div class="eyebrow">Decision 2 · Saturday night</div>
+      <div class="eyebrow">Step 2 of 3</div>
       <h2>Hotel</h2>
-      <p class="muted">The worst part of AT&amp;T Stadium is getting out. There's no train, and Ubers surge after the show. Stay within walking distance and you can skip the car entirely. The two Loews hotels below are the only luxury options close enough. A covered skybridge connects them, so guests at either can use both hotels' restaurants, bars and spa.</p>
+      <p class="q">What do you want from the hotel?</p>
+      <p class="muted">Getting out after the show is the hard part. There's no train, and traffic and Uber prices are bad. Both hotels below are close enough to walk. They're joined by an indoor bridge, so you can use the restaurants and spa at both.</p>
     </div>
     <div class="opts" id="hotel"></div>
     <div class="grid2">
       <div class="card">
         <h3>Live! by Loews</h3>
         <ul class="list small">
-          <li>5–10 min walk on a paved path to the stadium.</li>
-          <li>Next door to Texas Live! (Lockhart Smokehouse, Sports &amp; Social).</li>
-          <li>Cut &amp; Bourbon steakhouse, Arlington Clover Club cocktails.</li>
-          <li>Suites: Live! 616–663 sq ft · <b>Premium Stadium</b> 767–792 · Grand Stadium 936.</li>
-          <li>The rooftop infinity pool is seasonal and may be closed.</li>
+          <li>5–10 minute walk to the stadium.</li>
+          <li>Right next to Texas Live! (bars and restaurants).</li>
+          <li>Steakhouse (Cut &amp; Bourbon) and a cocktail bar.</li>
+          <li>Rooftop pool may be closed for the season.</li>
         </ul>
       </div>
       <div class="card">
         <h3>Loews Arlington</h3>
         <ul class="list small">
-          <li>10–15 min walk. Newest resort in the district, 888 rooms.</li>
-          <li>Soy Cowboy (sushi, robata, Korean BBQ) and Farena (Italian, open until 11 PM Sat).</li>
-          <li>The Bar serves food until midnight; open until 1:30 AM. Room service 24 hrs.</li>
-          <li>Full spa on floor 2. Year-round pool and hot tub.</li>
-          <li>Rooms from ~$229. Stadium-view rooms 718–773 sq ft.</li>
+          <li>10–15 minute walk to the stadium.</li>
+          <li>Sushi (Soy Cowboy) and Italian (Farena, open until 11 PM).</li>
+          <li>Bar serves food until midnight. Room service all night.</li>
+          <li>Full spa. Pool and hot tub open all year.</li>
         </ul>
       </div>
     </div>
-    <p class="small muted">Valet at either hotel costs $39/night, and you can come and go. Park once and walk for the rest of the weekend.</p>
+    <p class="small muted">Parking at either hotel is $39 a night with valet. Park once and walk the rest of the weekend.</p>
   </section>
 
   <!-- 3. Afterparty -->
   <section>
     <div class="head">
-      <div class="eyebrow">Decision 3 · Optional</div>
+      <div class="eyebrow">Step 3 of 3 · Optional</div>
       <h2>Afterparty</h2>
-      <p class="muted">The official afterparty is hosted by Justin LaBoy at Vice Park, 2601 Gaston Ave, Dallas. It's 21+ and doors open at 10 PM. Shazam lists it as a Ye concert, but it's a nightlife event. Ye's set is still running when doors open, and the party is about 20 miles east.</p>
+      <p class="q">Do you want to keep going after the show?</p>
+      <p class="muted">The official afterparty is at Vice Park in Dallas, hosted by Justin LaBoy. It's not a second Ye concert. Doors open at 10 PM, but the show is still going then, and the party is about 20 miles away. You must be 21+.</p>
     </div>
     <div class="opts" id="party"></div>
   </section>
 
-  <!-- Before Saturday -->
+  <!-- Bookings -->
   <section>
     <div class="head">
-      <div class="eyebrow">Book before you leave</div>
-      <h2>Reservations</h2>
+      <div class="eyebrow">After you've picked</div>
+      <h2>Book ahead</h2>
     </div>
     <ul class="list">
-      <li><b>Dinner around 5:30 PM.</b> Pick one: Cut &amp; Bourbon (steak), Soy Cowboy (pan-Asian) or Farena (Italian).</li>
-      <li><b>Spa, optional.</b> The Spa at Loews Arlington is open 8 AM–6 PM Saturday. Phone 682-318-2830, email spa@spaloewsarlington.com.</li>
-      <li><b>Valet</b> at check-in, $39.</li>
+      <li><b>Dinner, around 5:30 PM.</b> Steak (Cut &amp; Bourbon), sushi (Soy Cowboy) or Italian (Farena).</li>
+      <li><b>Spa, if you want it.</b> Open 8 AM–6 PM Saturday. Call 682-318-2830 or email spa@spaloewsarlington.com.</li>
     </ul>
   </section>
 
@@ -233,22 +231,23 @@ footer { font-size: 13px; color: var(--muted); }
   <section>
     <div class="head">
       <div class="eyebrow">Saturday</div>
-      <h2>Day of</h2>
+      <h2>Day of the show</h2>
     </div>
     <ol class="tl">
-      <li><time>12:30 PM</time><div>Leave Austin on I-35. Allow a 5-hour buffer before the show.</div></li>
-      <li><time>4:00 PM</time><div>Check in and valet the car. You won't need it again.</div></li>
-      <li><time>5:30 PM</time><div>Dinner at the hotel.</div></li>
-      <li><time>6:00 PM</time><div>Suites open (2 hours early). Club seats: walk the path east to <b>Entry E</b>.</div></li>
-      <li><time>8:00 PM</time><div>Show.</div></li>
-      <li><time>11–11:30</time><div>Show ends. Walk back. Late food at The Bar (Loews Arlington) or order room service.</div></li>
+      <li><time>12:30 PM</time><div>Leave Austin.</div></li>
+      <li><time>4:00 PM</time><div>Check in. Hand the car to valet.</div></li>
+      <li><time>5:30 PM</time><div>Dinner.</div></li>
+      <li><time>6:00 PM</time><div>Suites open. Club seats: use Entry E.</div></li>
+      <li><time>8:00 PM</time><div>Show starts.</div></li>
+      <li><time>11 PM</time><div>Show ends around 11–11:30. Walk back to the hotel.</div></li>
     </ol>
     <div class="note small">
-      <b>Bag rule, strictly enforced.</b> <span>Only a clear bag up to 12×6×12 in, a one-gallon clear freezer bag, or a clutch no bigger than 4.5×6.5 in. No backpacks, including clear ones. There's no bag check inside. Easiest move: leave everything in the room and bring your phone and a card.</span>
+      <b>Bags</b>
+      <span>Only clear bags or a very small clutch (about the size of your hand). No backpacks at all. Easiest: leave bags in the room and bring just your phone and a card.</span>
     </div>
   </section>
 
-  <footer>Source: trip report. Ticket and hotel prices are from that report and change daily. Check the live price before you pay. If you fly instead of driving: DFW is 17 minutes from the hotels, Love Field 35.</footer>
+  <footer>All prices come from the trip report. They change every day, so check before you pay.</footer>
 </div>
 
 <div class="bar" aria-hidden="true">
@@ -261,39 +260,58 @@ footer { font-size: 13px; color: var(--muted); }
 <script>
 const STEPS = {
   tix: [
-    { id: "suite", name: "Shared luxury suite", short: "Shared luxury suite", lo: 938, hi: 1116,
-      sub: "Private in-suite restrooms, indoor lounge and bar seating, in 2 hours early through the VIP gates. Includes club level access. Best if you want no crowds at all." },
-    { id: "hof", name: "Hall of Fame Club, 100 level", short: "Hall of Fame Club · Sec 145 Row 10 or Sec 103", tag: "Report's pick", lo: 655, hi: 704,
-      sub: "Within 20 rows of the field on the sideline. Sec 145 Row 10 or Sec 103, or club sections C106–C115 / C132–C139. The best view for the money, and cheaper than the floor." },
-    { id: "club", name: "Club Main / Founders, 200 level", short: "Club Main · C231 Row 10 or C211 Row 12", lo: 605, hi: 765,
-      sub: "Higher up at midfield. C210 is dead center (Founders Club). C231 Row 10, C211 Row 12, C233 Row 14. Club lounge and VIP entry." },
-    { id: "mezz", name: "Mezzanine, 300 level", short: "Mezzanine · Sec 302 or 344", lo: 432, hi: 498,
-      sub: "Sec 302 Row 14, Sec 344 Row 8. For lounge and private restrooms, pick club sections C308–C313 or C333–C338." },
-    { id: "upper", name: "Upper deck front row, 400 level", short: "Upper deck · Sec 435 Row 1", lo: 352, hi: 460,
-      sub: "Sec 435 Row 1–2 or 412 Row 11. Nobody stands in front of you, but it's far away and there's no lounge." }
+    { id: "suite", name: "Private suite (shared)", short: "Private suite", lo: 938, hi: 1116,
+      sub: "A private room with its own bathroom, couches and a bar. You can get in 2 hours early.",
+      fit: "Good if you want no crowds and no lines at all." },
+    { id: "hof", name: "Lower club seats (100 level)", short: "Lower club · Sec 145 Row 10 or Sec 103", tag: "Report suggests", lo: 655, hi: 704,
+      sub: "Close to the field, on the side. Try Sec 145 Row 10 or Sec 103.",
+      fit: "Good if you want to be close, with a real seat and club perks." },
+    { id: "club", name: "Upper club seats (200 level)", short: "Upper club · C231 Row 10 or C211 Row 12", lo: 605, hi: 765,
+      sub: "Higher up, in the middle. Try C231 Row 10 or C211 Row 12.",
+      fit: "Good if you like seeing the whole stage from above, with club perks." },
+    { id: "mezz", name: "Middle deck (300 level)", short: "Middle deck · Sec 302 or 344", lo: 432, hi: 498,
+      sub: "Try Sec 302 Row 14 or Sec 344 Row 8.",
+      fit: "Good if you want a solid view for less money." },
+    { id: "upper", name: "Top deck, front row (400 level)", short: "Top deck · Sec 435 Row 1", lo: 352, hi: 460,
+      sub: "Try Sec 435 Row 1. Nobody in front of you, but far away.",
+      fit: "Good if spending less matters most." }
   ],
   hotel: [
-    { id: "livesuite", name: "Live! by Loews · Premium Stadium Suite", short: "Live! by Loews · Premium Stadium Suite", tag: "Report's pick", lo: null, priceText: "Call for rate",
-      sub: "767–792 sq ft, looks straight at the stadium. Shortest walk: 5–10 min. Rate not in report." },
-    { id: "loewsview", name: "Loews Arlington · stadium-view room", short: "Loews Arlington · stadium-view room", lo: null, priceText: "Call for rate",
-      sub: "718–773 sq ft, floor-to-ceiling windows on the district. Spa and late-night food in the building. 10–15 min walk." },
-    { id: "loewsstd", name: "Loews Arlington · standard king", short: "Loews Arlington · standard king", lo: 229 / 2, hi: 229 / 2, priceText: "~$229",
-      sub: "387 sq ft. Same building, spa and late food; just a smaller room. The total counts half of it per person." }
+    { id: "livesuite", name: "Live! by Loews · Stadium Suite", short: "Live! by Loews · Stadium Suite", tag: "Report suggests", lo: null, priceText: "Call for price",
+      sub: "Big suite looking right at the stadium. Shortest walk.",
+      fit: "Good if being closest and having a view matter most." },
+    { id: "loewsview", name: "Loews Arlington · stadium-view room", short: "Loews Arlington · stadium-view room", lo: null, priceText: "Call for price",
+      sub: "Big room with floor-to-ceiling windows. Spa and late food in the building.",
+      fit: "Good if you want space, the spa and food after the show." },
+    { id: "loewsstd", name: "Loews Arlington · regular room", short: "Loews Arlington · regular room", lo: 229 / 2, hi: 229 / 2, priceText: "~$229",
+      sub: "Same hotel, smaller room. The cost box counts half per person.",
+      fit: "Good if the room is just for sleeping." }
   ],
   party: [
-    { id: "no", name: "Skip it", short: "Walk back, late food at The Bar", tag: "Recommended", lo: 0, hi: 0, priceText: "$0",
-      sub: "You'd miss the end of the set or show up after midnight. Stay put, eat late, sleep 10 minutes from your seat." },
-    { id: "yes", name: "Go", short: "Vice Park afterparty, Dallas", lo: 83, hi: 83, priceText: "$83+",
-      sub: "Leave early or show up late. 20 miles on the highway with Uber surge pricing at stadium closing time." }
+    { id: "no", name: "No, call it a night", short: "Walk back, late food at the hotel", lo: 0, hi: 0, priceText: "$0",
+      sub: "Walk back, eat at the hotel bar, sleep.",
+      fit: "Good if you want to see the full show and keep it easy." },
+    { id: "yes", name: "Yes, go to Dallas", short: "Vice Park afterparty, Dallas", lo: 83, hi: 83, priceText: "$83+",
+      sub: "You'd leave the show early or get there late. Uber will be busy and expensive.",
+      fit: "Good if the night isn't over for you at 11." }
   ]
 };
 const VALET = 39 / 2;
-const KEY = "ye-trip-picks-v2";
-let picks = { tix: "hof", hotel: "livesuite", party: "no" };
+const KEY = "ye-trip-picks-v3";
+const EMPTY = { tix: null, hotel: null, party: null };
+let picks = { ...EMPTY };
 try { Object.assign(picks, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch (e) {} };
 
 const money = n => "$" + Math.round(n).toLocaleString();
 const range = o => o.priceText || (o.lo === o.hi ? money(o.lo) : money(o.lo) + "–" + money(o.hi));
+const pick = s => STEPS[s].find(o => o.id === picks[s]) || null;
+
+function setDD(id, text) {
+  const el = document.getElementById(id);
+  el.textContent = text || "Not picked yet";
+  el.className = text ? "" : "empty";
+}
 
 function render() {
   for (const [step, opts] of Object.entries(STEPS)) {
@@ -305,31 +323,39 @@ function render() {
       b.setAttribute("aria-pressed", picks[step] === o.id);
       b.innerHTML =
         '<span class="name">' + o.name + (o.tag ? '<span class="tag">' + o.tag + "</span>" : "") + "</span>" +
-        '<span class="price">' + range(o) + (step === "tix" ? '<span class="muted" style="font-weight:400"> /seat</span>' : "") + "</span>" +
-        '<span class="sub">' + o.sub + "</span>";
-      b.onclick = () => {
-        picks[step] = o.id;
-        try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch (e) {}
-        render();
-      };
+        '<span class="price">' + range(o) + (step === "tix" ? '<span class="muted" style="font-weight:400"> a seat</span>' : "") + "</span>" +
+        '<span class="sub">' + o.sub + "</span>" +
+        '<span class="fit">' + o.fit + "</span>";
+      b.onclick = () => { picks[step] = o.id; save(); render(); };
       el.appendChild(b);
     }
   }
-  const pick = s => STEPS[s].find(o => o.id === picks[s]) || STEPS[s][0];
   const t = pick("tix"), h = pick("hotel"), p = pick("party");
-  document.getElementById("bl-tix").textContent = t.short + " · " + range(t) + " a seat";
-  document.getElementById("bl-hotel").textContent = h.short + (h.lo == null ? " · get a rate" : " · " + h.priceText + "/night");
-  document.getElementById("bl-party").textContent = p.short;
+  setDD("bl-tix", t && t.short + " · " + range(t) + " a seat");
+  setDD("bl-hotel", h && h.short + (h.lo == null ? " · call for price" : " · " + h.priceText + " a night"));
+  setDD("bl-party", p && p.short);
 
-  let lo = VALET + t.lo + p.lo, hi = VALET + t.hi + p.hi;
-  const roomKnown = h.lo != null;
-  if (roomKnown) { lo += h.lo; hi += h.hi; }
-  const cost = money(lo) + "–" + money(hi) + (roomKnown ? "" : " + room");
+  let cost, why;
+  if (!t) {
+    cost = "—";
+    why = "Pick your seats to see a cost.";
+  } else {
+    let lo = t.lo, hi = t.hi;
+    const parts = ["seat"];
+    if (p) { lo += p.lo; hi += p.hi; if (p.lo) parts.push("afterparty"); }
+    let extra = "";
+    if (h) {
+      lo += VALET; hi += VALET; parts.push("half the parking");
+      if (h.lo != null) { lo += h.lo; hi += h.hi; parts.push("half the room"); }
+      else extra = " + room";
+    } else extra = " + hotel";
+    cost = (Math.round(lo) === Math.round(hi) ? money(lo) : money(lo) + "–" + money(hi)) + extra;
+    why = "Each person: " + parts.join(", ") + (extra === " + room" ? ". Add half the room once you get a price." : ".") + " Food not included.";
+  }
   document.getElementById("bl-cost").textContent = cost;
   document.getElementById("bar-cost").textContent = cost;
-  document.getElementById("bar-why").textContent = roomKnown
-    ? "Per person: seat, half the room, half the valet. Food extra."
-    : "Per person: seat and half the valet, plus half the suite rate.";
+  document.getElementById("bar-why").textContent = why;
 }
+document.getElementById("reset").onclick = () => { picks = { ...EMPTY }; save(); render(); };
 render();
 </script>
